@@ -1,0 +1,81 @@
+#include <stdio.h>
+
+/* Original prime checking */
+unsigned long original_checks = 0;
+
+/* Redesigned prime checking */
+unsigned long redesigned_checks = 0;
+
+int original_prime(unsigned long n)
+{
+    original_checks = 0;
+
+    if (n < 2)
+        return 0;
+
+    for (unsigned long i = 2; i <= n / i; i++)
+    {
+        original_checks++;
+
+        if (n % i == 0)
+            return 0;
+    }
+
+    return 1;
+}
+
+/* Improved version: Skip even divisors */
+int redesigned_prime(unsigned long n)
+{
+    redesigned_checks = 0;
+
+    if (n < 2)
+        return 0;
+
+    if (n == 2)
+        return 1;
+
+    redesigned_checks++;
+
+    if (n % 2 == 0)
+        return 0;
+
+    for (unsigned long i = 3; i <= n / i; i += 2)
+    {
+        redesigned_checks++;
+
+        if (n % i == 0)
+            return 0;
+    }
+
+    return 1;
+}
+
+int main()
+{
+    unsigned long numbers[] =
+    {
+        97, 100, 7919, 1000003
+    };
+
+    printf("Number\tOriginal\tRedesigned\n");
+
+    for (int i = 0; i < 4; i++)
+    {
+        int result1 = original_prime(numbers[i]);
+
+        unsigned long old_count = original_checks;
+
+        int result2 = redesigned_prime(numbers[i]);
+
+        unsigned long new_count = redesigned_checks;
+
+        printf("%lu\t%s\t\t%lu\t\t%lu\n",
+               numbers[i],
+               (result1 && result2) ? "Prime" : "Not Prime",
+               old_count,
+               new_count);
+    }
+
+    return 0;
+}
