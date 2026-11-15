@@ -1,0 +1,29 @@
+#include <stdio.h>
+
+char grade(int marks)
+{
+    char grades[11] =
+    {
+        'F', 'F', 'F', 'F', 'F',
+        'D', 'C', 'B', 'A', 'S', 'S'
+    };
+
+    if (marks < 0 || marks > 100)
+        return '?';
+
+    return grades[marks / 10];
+}
+
+int main()
+{
+    int marks[] = {100, 95, 83, 50, 49, -5};
+
+    for (int i = 0; i < 6; i++)
+    {
+        printf("%d:%c ", marks[i], grade(marks[i]));
+    }
+
+    printf("\n");
+
+    return 0;
+}
